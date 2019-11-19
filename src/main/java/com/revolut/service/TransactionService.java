@@ -50,10 +50,8 @@ public class TransactionService {
             transaction.setStatus(IN_PROGRESS);
 
             if (amount.compareTo(senderAccount.getBalance()) < 1) {
-                if (amount.compareTo(senderAccount.getBalance()) < 1) {
-                    transferAmount(senderAccount, recipientAccount, amount, transaction);
-                    transaction.setStatus(SUCCESS);
-                }
+                transferAmount(senderAccount, recipientAccount, amount, transaction);
+                transaction.setStatus(SUCCESS);
 
             } else {
                 transaction.setStatus(FAILED);

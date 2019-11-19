@@ -25,7 +25,6 @@ public class TransferAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response transfer(String payload) throws JsonProcessingException {
-
         JsonNode jsonNode = MAPPER.readTree(payload);
         Transaction transaction = transactionService.initiateTransfer(jsonNode.get("senderAccount").asText(),
                 jsonNode.get("recipientAccount").asText(),

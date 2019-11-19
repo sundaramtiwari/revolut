@@ -3,8 +3,12 @@ package com.revolut.rest;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RevolutApplication {
+
+    private static final Logger logger = LoggerFactory.getLogger(RevolutApplication.class);
 
     private static Server jettyServer = null;
 
@@ -13,6 +17,7 @@ public class RevolutApplication {
     }
 
     public static void start() throws Exception {
+        logger.info("Starting jetty server");
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
@@ -36,7 +41,7 @@ public class RevolutApplication {
     }
 
     public static void shutdown() throws Exception {
-        System.out.println("Shutting down jetty server");
+        logger.info("Shutting down jetty server");
         jettyServer.stop();
         jettyServer.destroy();
     }

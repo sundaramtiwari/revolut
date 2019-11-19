@@ -29,6 +29,7 @@ public class AccountAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Deprecated
     public Response createTestAccount() throws JsonProcessingException {
         User user = userService.createUser("testUser_" + now(), "testUserEmail_" + now());
         Account account = accountService.createAccount(user, BigDecimal.valueOf(100));

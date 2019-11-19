@@ -5,25 +5,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
 import static java.util.Currency.getInstance;
 import static java.util.Objects.requireNonNull;
 
 public class Account {
-    @JsonProperty
-    private final UUID id;
-    @JsonProperty
-    private final Currency currency;
-    @JsonProperty
+    private UUID id;
+    private Currency currency;
     private BigDecimal balance;
 
-    @JsonCreator
-    public Account(BigDecimal balance, Locale locale) {
+    @JsonCreator(mode = PROPERTIES)
+    public Account(@JsonProperty("id") String id,
+                   @JsonProperty("currency") String currency,
+                   @JsonProperty("balance") BigDecimal balance) {
         this.balance = requireNonNull(balance);
-        this.currency = getInstance(requireNonNull(locale));
+        this.currency = getInstance(requireNonNull(currency));
+        this.id = requireNonNull(UUID.fromString(id));
+    }
+
+    public Account(BigDecimal balance, Currency currency) {
+        this.balance = requireNonNull(balance);
+        this.currency = requireNonNull(currency);
         this.id = UUID.randomUUID();
     }
 
@@ -36,22 +41,18 @@ public class Account {
                 '}';
     }
 
-    @JsonProperty
     public UUID getId() {
         return id;
     }
 
-    @JsonProperty
     public BigDecimal getBalance() {
         return balance;
     }
 
-    @JsonProperty
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    @JsonProperty
     public Currency getCurrency() {
         return currency;
     }

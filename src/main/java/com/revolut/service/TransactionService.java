@@ -3,6 +3,8 @@ package com.revolut.service;
 import com.revolut.domain.Account;
 import com.revolut.domain.Transaction;
 import com.revolut.exception.TransactionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -18,9 +20,12 @@ import static com.revolut.service.AccountService.ACCOUNT_MAP;
 
 public class TransactionService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+
     private static ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public Transaction initiateTransfer(String senderId, String receiverId, String amountStr) {
+        logger.info(String.format("Initiating transfer from: " + senderId + " to " + receiverId + " for amount: " + amountStr));
         BigDecimal amount;
 
         try {

@@ -1,6 +1,7 @@
 package com.revolut.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -8,6 +9,7 @@ import java.util.Currency;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
 import static com.revolut.domain.Transaction.TransactionStatus.CREATED;
 import static java.util.Objects.requireNonNull;
 
@@ -22,7 +24,21 @@ public class Transaction {
 
     private TransactionStatus status;
 
-    @JsonCreator
+    @JsonCreator(mode = PROPERTIES)
+    private Transaction(@JsonProperty("id") UUID id,
+                        @JsonProperty("fromAccount") Account fromAccount,
+                        @JsonProperty("toAccount") Account toAccount,
+                        @JsonProperty("amount") BigDecimal amount,
+                        @JsonProperty("status") TransactionStatus status) {
+        this.fromAccount = requireNonNull(fromAccount);
+        this.toAccount = requireNonNull(toAccount);
+        this.amount = requireNonNull(amount);
+        this.currency = fromAccount.getCurrency();
+        this.id = UUID.randomUUID();
+        this.status = status;
+        zonedDateTime = ZonedDateTime.now();
+    }
+
     public Transaction(Account fromAccount, Account toAccount, BigDecimal amount) {
         this.fromAccount = requireNonNull(fromAccount);
         this.toAccount = requireNonNull(toAccount);

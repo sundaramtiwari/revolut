@@ -7,8 +7,6 @@ In-memory datastore used.
 The final result is an executable jar and does not requires a pre-installed container/server as embedded jetty is used.
 Demonstrated with test that the API works as expected.
 
-Embedded jetty with jersey implementation.
-
 # how to test
 mvn clean install
 
